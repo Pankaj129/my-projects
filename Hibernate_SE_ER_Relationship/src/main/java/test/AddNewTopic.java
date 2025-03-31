@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import dao.TopicDaoImpl;
 import pojos.Topic;
 
-public class AddTopic {
+public class AddNewTopic {
 
 	public static void main(String[] args) {
 		try (@SuppressWarnings("unused")

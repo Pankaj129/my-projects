@@ -26,6 +26,7 @@ public class Tutorial extends BaseEntity {
 	@JoinColumn(nullable = false)
 	private User author;
 
+
 	public Tutorial() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -77,6 +78,14 @@ public class Tutorial extends BaseEntity {
 
 	public void setSelectedTopic(Topic selectedTopic) {
 		this.selectedTopic = selectedTopic;
+	}
+
+	public User getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
 	@Override
