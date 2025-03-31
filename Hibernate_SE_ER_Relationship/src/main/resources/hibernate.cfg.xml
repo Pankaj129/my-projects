@@ -5,25 +5,28 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-	<session-factory>
-
-		<!-- Database connection settings -->
-		<property name="hibernate.connection.autocommit">false</property>
-		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="hibernate.connection.url">
-			jdbc:mysql://localhost:3306/sunbeam22?useSSL=false&amp;allowPublicKeyRetrieval=true
-		</property>
-		<property name="hibernate.connection.username">root</property>
-		<property name="hibernate.connection.password">root</property>
-
-		<!-- Connection pool settings -->
-		<property name="hibernate.connection.pool_size">10</property>
-
-		<!-- Hibernate settings -->
-		<property name="hibernate.current_session_context_class">thread</property>
-		<property name="hibernate.show_sql">true</property>
-		<property name="hibernate.format_sql">true</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
-
-	</session-factory>
+    <session-factory>
+        
+        <!-- Database Connection Configuration -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/sunbeam22_1?createDatabaseIfNotExist=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
+        
+        <!-- Connection Management -->
+        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.connection.pool_size">10</property>
+        
+        <!-- Hibernate Settings -->
+        <property name="hibernate.current_session_context_class">thread</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        
+        <!-- Mapping Classes -->
+        <mapping class="pojos.User"/>
+        <mapping class="pojos.Topic"/>
+        <mapping class="pojos.Tutorial"/>
+        
+    </session-factory>
 </hibernate-configuration>
