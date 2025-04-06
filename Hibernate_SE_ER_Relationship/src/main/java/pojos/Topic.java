@@ -41,7 +41,7 @@ public class Topic extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "Topic ID" + getId() + " [topicName=" + topicName + ", desciption=" + desciption + "]";
+		return "Topic ID " + getId() + " [topicName=" + topicName + ", desciption=" + desciption + "]";
 	}
 
 }

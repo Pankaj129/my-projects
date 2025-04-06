@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,10 +20,10 @@ public class Tutorial extends BaseEntity {
 	@Column(length = 400)
 	private String contents;
 	// additional prop. to establish uni-directn relationship from Tutorial *--->1Topic
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "topic_id", nullable = false)
 	private Topic selectedTopic;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private User author;
 

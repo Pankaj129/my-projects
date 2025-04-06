@@ -2,6 +2,8 @@ package dao;
 
 import static utils.HibernateUtils.getFactory;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -38,5 +40,61 @@ public class TutorialDaoImpl implements ITutorialDao {
 		}
 		return mesg;
 	}
+
+	@Override
+	public List<Tutorial> getAllTutorials() {
+		String jpqlQuery = "Select t from Tutorial t";
+		Session session = getFactory().getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		List<Tutorial> tutorials = null;
+		try {
+			tutorials = session.createQuery(jpqlQuery, Tutorial.class).getResultList();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				tx.rollback();
+				throw e;
+			}
+		}
+		return tutorials;
+	}
+	
+	
+	@Override
+	public List<Tutorial> getAllTutorialsWithTopic() {
+		String jpqlQuery = "Select t from Tutorial t join fetch t.selectedTopic";
+		Session session = getFactory().getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		List<Tutorial> tutorials = null;
+		try {
+			tutorials = session.createQuery(jpqlQuery, Tutorial.class).getResultList();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				tx.rollback();
+				throw e;
+			}
+		}
+		return tutorials;
+	}
+
+	@Override
+	public List<Tutorial> getAllTutorialsByTopicName(String topicName) {
+		String jpqlQuery = "select t from Tutorial t join t.selectedTopic tp where tp.topicName=:nm";
+		Session session = getFactory().getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		List<Tutorial> tutorials = null;
+		try {
+			tutorials = session.createQuery(jpqlQuery, Tutorial.class).setParameter("nm", topicName).getResultList();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				tx.rollback();
+				throw e;
+			}
+		}
+		return tutorials;
+	}
+	
 
 }
