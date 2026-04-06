@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.IUserRepository;
 import com.app.dto.UserCreateDTO;
@@ -17,6 +19,8 @@ import com.app.exception.UserNotFoundException;
 import com.app.pojos.RoleEnum;
 import com.app.pojos.User;
 
+@Service
+@Transactional
 public class UserServiceImpl implements IUserService {
 
 	@Autowired
@@ -25,7 +29,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public String authenticateAndGetRedirect(String email, String password, HttpSession session) {
 
-		User user = userRepo.findByEmailAndPasswod(email, password)
+		User user = userRepo.findByEmailAndPassword(email, password)
 				.orElseThrow(() -> new InvalidCredentialsException("Invalid credentials"));
 
 		// store in session

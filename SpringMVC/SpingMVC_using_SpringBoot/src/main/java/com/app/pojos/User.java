@@ -41,4 +41,12 @@ public class User extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private RoleEnum role;
 
+	public User(String firstname, String lastname) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+	
+	
+
 }
