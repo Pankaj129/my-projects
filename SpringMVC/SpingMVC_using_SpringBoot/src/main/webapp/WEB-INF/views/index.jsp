@@ -58,7 +58,7 @@ a:hover {
 
 		<!-- Spring URL tag usage -->
 		<h4>
-			<a href="<spring:url value='/user/login'/>">User Login</a>
+			<a href="<spring:url value='/users/login'/>">User Login</a>
 		</h4>
 
 	</div>

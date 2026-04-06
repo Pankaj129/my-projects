@@ -17,9 +17,9 @@ body {
 }
 
 .login-box {
-	width: 350px;
-	margin: 100px auto;
-	padding: 20px;
+	width: 400px;
+	margin: 80px auto;
+	padding: 15px;
 	background: white;
 	border-radius: 8px;
 	box-shadow: 0px 0px 10px #ccc;
@@ -30,7 +30,7 @@ h2 {
 }
 
 input[type=text], input[type=password] {
-	width: 100%;
+	width: 90%;
 	padding: 10px;
 	margin: 8px 0;
 }
@@ -42,6 +42,7 @@ button {
 	color: white;
 	border: none;
 	cursor: pointer;
+	align: center
 }
 
 button:hover {
@@ -52,6 +53,7 @@ button:hover {
 	color: red;
 	text-align: center;
 }
+
 </style>
 
 </head>
@@ -69,11 +71,11 @@ button:hover {
 		<!-- LOGIN FORM -->
 		<form action="<spring:url value='/user/login'/>" method="post">
 
-			<label>Email</label> 
-			<input type="text" name="email"	placeholder="Enter email" required /> 
+			<label>Email : </label> 
+			<input type="text" name="email" placeholder="Enter email" required /> 
 			
-			<label>Password</label> 
-			<input type="password" name="password" placeholder="Enter password"	required />
+			<label>Password : </label> 
+			<input type="password" name="password" placeholder="Enter password" required />
 
 			<button type="submit">Login</button>
 
