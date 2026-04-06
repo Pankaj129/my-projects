@@ -1,0 +1,106 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- ===================================================== -->
+    <!-- 1. Component Scan (Service, DAO, etc.)                -->
+    <!-- ===================================================== -->
+    <!-- Scans all Spring-managed components like:
+         @Service, @Repository, @Component -->
+    <context:component-scan base-package="com.app"/>
+
+
+    <!-- ===================================================== -->
+    <!-- 2. Load External Properties File                      -->
+    <!-- ===================================================== -->
+    <!-- Loads database and Hibernate properties from:
+         src/main/resources/database.properties -->
+    <context:property-placeholder location="classpath:database.properties"/>
+
+
+    <!-- ===================================================== -->
+    <!-- 3. DataSource Configuration (HikariCP)                -->
+    <!-- ===================================================== -->
+    <!-- HikariCP is a high-performance JDBC connection pool -->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        
+        <!-- JDBC Driver -->
+        <property name="driverClassName" value="${db.driver}"/>
+        
+        <!-- Database URL -->
+        <property name="jdbcUrl" value="${db.url}"/>
+        
+        <!-- DB Credentials -->
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+
+    </bean>
+
+
+    <!-- ===================================================== -->
+    <!-- 4. Hibernate SessionFactory                           -->
+    <!-- ===================================================== -->
+    <!-- Responsible for:
+         - Creating Hibernate Sessions
+         - Managing entity mappings
+    -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+
+        <!-- Inject DataSource -->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!-- Scan all @Entity classes -->
+        <property name="packagesToScan" value="com.app.pojos"/>
+
+        <!-- Hibernate-specific properties -->
+        <property name="hibernateProperties">
+            <props>
+
+                <!-- SQL Dialect (MySQL 8) -->
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+
+                <!-- Show SQL queries in console -->
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+
+                <!-- Format SQL for readability -->
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+
+                <!-- Auto schema update (DEV only) -->
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+
+            </props>
+        </property>
+
+    </bean>
+
+
+    <!-- ===================================================== -->
+    <!-- 5. Transaction Manager                                -->
+    <!-- ===================================================== -->
+    <!-- Handles database transactions -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+
+        <!-- Inject SessionFactory -->
+        <property name="sessionFactory" ref="sessionFactory"/>
+
+    </bean>
+
+
+    <!-- ===================================================== -->
+    <!-- 6. Enable @Transactional Annotation                   -->
+    <!-- ===================================================== -->
+    <!-- Allows usage of @Transactional in Service layer -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>
