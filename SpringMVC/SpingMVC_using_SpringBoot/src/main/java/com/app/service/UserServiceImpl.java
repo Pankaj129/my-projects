@@ -42,10 +42,10 @@ public class UserServiceImpl implements IUserService {
 			return "redirect:/admin/users";
 
 		case AUTHOR:
-			return "redirect:/author/status";
+			return "redirect:/author/dashboard";
 
 		default:
-			return "redirect:/customer/status";
+			return "redirect:/customer/dashboard";
 		}
 	}
 
@@ -131,6 +131,13 @@ public class UserServiceImpl implements IUserService {
 
 		userRepo.save(user);
 
+	}
+
+	@Override
+	public User findByEmail(String email) {
+
+		return userRepo.findByEmail(email)
+				.orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 	}
 
 }

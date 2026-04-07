@@ -26,4 +26,7 @@ public interface IUserService {
 	void updateUser(UserUpdateDTO user);
 
 	void addUser(@Valid UserCreateDTO dto);
+
+	User findByEmail(String email);
+
 }

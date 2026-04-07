@@ -15,27 +15,34 @@ import com.app.service.IUserService;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-	
-	@Autowired 
+
+	@Autowired
 	private IUserService userService;
-	
+
 	@GetMapping("/login")
 	public String showLoginForm() {
-		
+
 		return "users/login";
 	}
-	
+
 	@PostMapping("/login")
-	public String processLoginForm(@RequestParam String email,
-	                               @RequestParam String password,
-	                               HttpSession session,
-	                               RedirectAttributes flashMap) {
+	public String processLoginForm(@RequestParam String email, @RequestParam String password, HttpSession session,
+			RedirectAttributes flashMap) {
 
-	    String redirectUrl = userService.authenticateAndGetRedirect(email, password, session);
+		String redirectUrl = userService.authenticateAndGetRedirect(email, password, session);
 
-	    flashMap.addFlashAttribute("msg", "Login successful!");
+		flashMap.addFlashAttribute("msg", "Login successful!");
 
-	    return redirectUrl;
+		return redirectUrl;
+	}
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+
+		// Destroy session
+		session.invalidate();
+
+		return "redirect:/users/login";
 	}
 
 }
