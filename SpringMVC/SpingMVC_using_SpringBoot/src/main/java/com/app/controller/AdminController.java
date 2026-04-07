@@ -92,6 +92,7 @@ public class AdminController {
 	@GetMapping("/users/add")
 	public String showAddUserForm(Model model) {
 		model.addAttribute("user", new UserCreateDTO());
+		System.out.println("get user done");
 		return "admin/add-user";
 	}
 
@@ -99,11 +100,11 @@ public class AdminController {
 	@PostMapping("/users/add")
 	public String addUser(@Valid @ModelAttribute("user") UserCreateDTO dto, BindingResult result,
 			RedirectAttributes flashMap) {
-
+		System.out.println("user added");
 		if (result.hasErrors()) {
 			return "admin/add-user";
 		}
-
+		System.out.println("successfully.!!");
 		userService.addUser(dto);
 
 		flashMap.addFlashAttribute("msg", "User added successfully!");

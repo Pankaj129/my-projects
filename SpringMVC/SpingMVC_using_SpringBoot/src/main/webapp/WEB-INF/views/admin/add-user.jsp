@@ -3,7 +3,7 @@
 
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,16 +44,19 @@ input, select {
 
 .btn {
 	width: 100%;
-	background: #28a745;
+	background: #0dcaf0;
 	color: white;
 	padding: 10px;
 	border: none;
 	cursor: pointer;
 	font-size: 16px;
+	border-radius: 6px;
+	transition: 0.3s ease;
 }
 
 .btn:hover {
-	background: #218838;
+	background: #0bbcd6;
+	transform: translateY(-1px);
 }
 
 .error {
@@ -77,33 +80,33 @@ input, select {
 
 <body>
 
+	<c:url var="addUserUrl" value="/admin/users/add" />
+	<c:url var="usersUrl" value="/admin/users" />
+
 	<div class="container">
 
 		<div class="top-link">
-			<a href="/admin/users">← Back to Users</a>
+			<a href="${usersUrl}">← Back to Users</a>
 		</div>
 
 		<h2>Add New User</h2>
 
-		<!-- Success Message -->
 		<c:if test="${not empty msg}">
 			<p class="msg">${msg}</p>
 		</c:if>
 
-		<!-- Form -->
-		<form:form method="post" action="/admin/users/add"
-			modelAttribute="user">
+		<form:form method="post" action="${addUserUrl}" modelAttribute="user">
 
 			<label>First Name</label>
-			<form:input path="firstname" />
+			<form:input path="firstname" placeholder="Enter First Name" />
 			<form:errors path="firstname" cssClass="error" />
 
 			<label>Last Name</label>
-			<form:input path="lastname" />
+			<form:input path="lastname" placeholder="Enter Last Name" />
 			<form:errors path="lastname" cssClass="error" />
 
 			<label>Email</label>
-			<form:input path="email" />
+			<form:input path="email" type="email" placeholder="Enter Email" />
 			<form:errors path="email" cssClass="error" />
 
 			<label>Password</label>
@@ -119,7 +122,7 @@ input, select {
 			</form:select>
 			<form:errors path="role" cssClass="error" />
 
-			<button type="submit" class="btn">Add User</button>
+			<button type="submit" class="btn">➕ Add User</button>
 
 		</form:form>
 

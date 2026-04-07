@@ -69,7 +69,7 @@ button:hover {
 		</c:if>
 
 		<!-- LOGIN FORM -->
-		<form action="<spring:url value='/user/login'/>" method="post">
+		<form action="<spring:url value='/users/login'/>" method="post">
 
 			<label>Email : </label> 
 			<input type="text" name="email" placeholder="Enter email" required /> 

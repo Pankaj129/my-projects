@@ -31,23 +31,33 @@ input, select {
 	margin: 10px 0;
 }
 
-button {
+.btn {
 	width: 100%;
-	padding: 10px;
-	background: orange;
+	background: #0dcaf0;
 	color: white;
+	padding: 10px;
 	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	border-radius: 6px;
+	transition: 0.3s ease;
+}
+
+.btn:hover {
+	background: #0bbcd6;
+	transform: translateY(-1px);
 }
 </style>
 
 </head>
 <body>
-
+	<c:url var="editUserUrl" value="/admin/users/edit" />
+	
 	<div class="container">
 
 		<h2>✏️ Edit User</h2>
 
-		<form:form method="post" action="/admin/users/edit"
+		<form:form method="post" action="${editUserUrl}"
 			modelAttribute="user">
 
 			<form:hidden path="id" />
@@ -74,7 +84,7 @@ button {
 				<form:option value="CUSTOMER">CUSTOMER</form:option>
 			</form:select>
 
-			<button type="submit">Update</button>
+			<button type="submit" class="btn">Update</button>
 
 		</form:form>
 

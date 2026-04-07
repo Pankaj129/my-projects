@@ -39,7 +39,7 @@ public class UserServiceImpl implements IUserService {
 
 		switch (role) {
 		case ADMIN:
-			return "redirect:/admin/status";
+			return "redirect:/admin/users";
 
 		case AUTHOR:
 			return "redirect:/author/status";
