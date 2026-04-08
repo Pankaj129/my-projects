@@ -14,29 +14,56 @@ import com.app.pojos.Tutorial;
 public class TutorialServiceImpl implements ITutorialService {
 
 	@Autowired
-	private ITutorialRepository tutorialRepo;
+	private ITutorialRepository tutorialRepository;
 
 	@Override
 	public List<Tutorial> findByAuthor(Long authorId) {
 
-		return tutorialRepo.findByAuthorId(authorId);
+		return tutorialRepository.findByAuthorId(authorId);
 	}
 
 	@Override
 	public void saveTutorial(Tutorial tutorial) {
-		tutorialRepo.save(tutorial);
+		tutorialRepository.save(tutorial);
 	}
 
 	@Override
 	public Tutorial findById(Long id) {
 
-		return tutorialRepo.findById(id).orElseThrow(() -> new RuntimeException("Tutorial not found"));
+		return tutorialRepository.findById(id).orElseThrow(() -> new RuntimeException("Tutorial not found"));
 	}
 
 	@Override
 	public void deleteById(Long id) {
-		tutorialRepo.deleteById(id);
+		tutorialRepository.deleteById(id);
 
+	}
+
+	@Override
+	public List<Tutorial> getAllTutorials() {
+
+		return tutorialRepository.findAll();
+	}
+
+	@Override
+	public List<Tutorial> findByTopicSorted(Long topicId) {
+		return tutorialRepository.findByTopicSorted(topicId);
+	}
+
+	@Override
+	public List<Tutorial> getAllSorted() {
+		return tutorialRepository.findAllSorted();
+	}
+
+	@Override
+	public void save(Tutorial tutorial) {
+		tutorialRepository.save(tutorial);
+	}
+
+	@Override
+	public Tutorial getById(Long id) {
+	
+		return tutorialRepository.findById(id).orElse(null);
 	}
 
 }

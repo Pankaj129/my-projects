@@ -19,7 +19,6 @@ import com.app.pojos.Tutorial;
 import com.app.pojos.User;
 import com.app.service.ITopicService;
 import com.app.service.ITutorialService;
-import com.app.service.IUserService;
 
 @Controller
 @RequestMapping("/author")
@@ -27,9 +26,6 @@ public class AuthorController {
 
 	@Autowired
 	private ITopicService topicService;
-
-	@Autowired
-	private IUserService userService;
 
 	@Autowired
 	private ITutorialService tutorialService;

@@ -14,4 +14,14 @@ public interface ITutorialService {
 
 	void deleteById(Long id);
 
+	List<Tutorial> getAllTutorials();
+
+	List<Tutorial> findByTopicSorted(Long topicId);
+
+	List<Tutorial> getAllSorted();
+
+	void save(Tutorial tutorial);
+
+	Tutorial getById(Long id);
+
 }
