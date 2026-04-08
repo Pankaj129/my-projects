@@ -1,6 +1,5 @@
 package com.app.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -35,14 +34,16 @@ public class AuthorController {
 	@Autowired
 	private ITutorialService tutorialService;
 
-	
 	@GetMapping("/dashboard")
-	public String showAuthorDashboard(Model model, Principal principal) {
+	public String showAuthorDashboard(Model model, HttpSession session) {
 
-		// Get logged-in user email (Spring Security)
-		String email = principal.getName();
+		// Get user from session
+		User user = (User) session.getAttribute("userDetails");
 
-		User user = userService.findByEmail(email);
+		if (user == null) {
+
+			return "redirect:/users/login";
+		}
 
 		model.addAttribute("user", user);
 
@@ -55,7 +56,7 @@ public class AuthorController {
 	@GetMapping("/tutorials/add")
 	public String showAddTutorialForm(Model model, HttpSession session) {
 
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("userDetails");
 		if (user == null) {
 			return "redirect:/users/login";
 		}
@@ -72,7 +73,7 @@ public class AuthorController {
 	@PostMapping("/tutorials/add")
 	public String addTutorial(@ModelAttribute Tutorial tutorial, HttpSession session, RedirectAttributes flash) {
 
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("userDetails");
 		if (user == null) {
 			return "redirect:/users/login";
 		}
@@ -91,11 +92,11 @@ public class AuthorController {
 		return "redirect:/author/dashboard";
 	}
 
-	@GetMapping("/author/tutorials/edit/{id}")
+	@GetMapping("/tutorials/edit/{id}")
 	public String showEditForm(@PathVariable Long id, Model model, HttpSession session, RedirectAttributes flash) {
 
 		// Check login
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("userDetails");
 		if (user == null) {
 			return "redirect:/users/login";
 		}
@@ -114,10 +115,10 @@ public class AuthorController {
 		return "author/edit_tutorial";
 	}
 
-	@PostMapping("/author/tutorials/edit")
+	@PostMapping("/tutorials/edit/{id}")
 	public String updateTutorial(@ModelAttribute Tutorial tutorial, HttpSession session, RedirectAttributes flash) {
 
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("userDetails");
 		if (user == null) {
 			return "redirect:/users/login";
 		}
@@ -146,11 +147,11 @@ public class AuthorController {
 		return "redirect:/author/dashboard";
 	}
 
-	@GetMapping("/author/tutorials/delete/{id}")
+	@GetMapping("/tutorials/delete/{id}")
 	public String deleteTutorial(@PathVariable Long id, HttpSession session, RedirectAttributes flash) {
 
 		// Check login
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("userDetails");
 		if (user == null)
 			return "redirect:/users/login";
 
@@ -163,7 +164,7 @@ public class AuthorController {
 
 		tutorialService.deleteById(id);
 
-		flash.addFlashAttribute("msg", "Tutorial deleted successfully!");
+		flash.addFlashAttribute("msg", "Tutorial id " + id + " deleted successfully!");
 
 		return "redirect:/author/dashboard";
 	}

@@ -54,10 +54,21 @@ button:hover {
 	text-align: center;
 }
 
+.success-box {
+    background: #d4edda;
+    color: #155724;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
 </style>
 
 </head>
 <body>
+	<c:if test="${not empty msg}">
+		<div class="success-box">${msg}</div>
+	</c:if>
 
 	<div class="login-box">
 

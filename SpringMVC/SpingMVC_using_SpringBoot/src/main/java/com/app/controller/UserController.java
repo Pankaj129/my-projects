@@ -36,12 +36,12 @@ public class UserController {
 		return redirectUrl;
 	}
 
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
+	@PostMapping("/logout")
+	public String logout(HttpSession session, RedirectAttributes flashMap) {
 
 		// Destroy session
 		session.invalidate();
-
+		flashMap.addFlashAttribute("msg", "You have been logged out successfully 👋");
 		return "redirect:/users/login";
 	}
 

@@ -3,64 +3,15 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Author Dashboard</title>
 
-<style>
-body {
-	font-family: Arial;
-	background-color: #f4f6f9;
-	margin: 0;
-}
-
-.navbar {
-	background-color: #343a40;
-	color: white;
-	padding: 15px;
-	display: flex;
-	justify-content: space-between;
-}
-
-.container {
-	width: 85%;
-	margin: 30px auto;
-	background: white;
-	padding: 20px;
-	border-radius: 10px;
-	box-shadow: 0px 0px 10px #ccc;
-}
-
-.btn {
-	background: #0dcaf0;
-	color: white;
-	padding: 6px 10px;
-	border-radius: 5px;
-	text-decoration: none;
-	font-size: 13px;
-}
-
-.btn-danger {
-	background: red;
-}
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 20px;
-}
-
-th, td {
-	border: 1px solid #ddd;
-	padding: 10px;
-}
-
-th {
-	background: #f2f2f2;
-}
-</style>
+<link rel="stylesheet" href="<c:url value='/css/style.css'/>">
 
 </head>
 
@@ -70,17 +21,17 @@ th {
 		<div>Welcome, ${user.firstname} 👋</div>
 
 		<c:url var="logoutUrl" value="/users/logout" />
-
-		<form action="${logoutUrl}" method="post" style="display: inline;">
-
+		<form action="${logoutUrl}" method="post" style="margin:0;">
 			<button type="submit"
-				style="background: red; border: none; color: white; cursor: pointer;"
+				style="background: red; border: none; color: white; padding: 6px 12px; border-radius: 5px; cursor: pointer;"
 				onclick="return confirm('Are you sure you want to logout?');">
-				Logout</button>
+				Logout
+			</button>
 		</form>
 	</div>
 
 	<div class="container">
+
 		<!-- Success -->
 		<c:if test="${not empty msg}">
 		    <div class="success-box">${msg}</div>
@@ -93,9 +44,13 @@ th {
 
 		<h2>Your Tutorials</h2>
 
-		<c:url var="addUrl" value="/author/tutorials/add"/>
-		<a href="${addUrl}" class="btn">➕ Add Tutorial</a>
-
+		<div class="top-bar">
+			<c:url var="addUrl" value="/author/tutorials/add"/>
+		    <a href="${addUrl}" class="btn-modern">➕ Add Tutorial</a>
+		
+		    <c:url var="dashboardUrl" value="/author/dashboard"/>
+		    <a href="${dashboardUrl}" class="btn back-btn">⬅ Back</a>
+		</div>
 		<c:if test="${empty tutorials}">
 			<p>No tutorials available.</p>
 		</c:if>
@@ -121,36 +76,43 @@ th {
 							<td>${t.tutorialName}</td>
 							<td>${t.publishDate}</td>
 							<td>${t.visits}</td>
-
-							<!-- Avoid Lazy Load Exception -->
 							<td>${t.selectedTopic.topicName}</td>
 
 							<td>
-								<c:choose>
-									<c:when test="${fn:length(t.content) > 50}">
-										${fn:substring(t.content, 0, 50)}...
-									</c:when>
-									<c:otherwise>
-										${t.content}
-									</c:otherwise>
-								</c:choose>
+							    <button class="btn view-btn" onclick="showContent(this)"
+									data-content="${fn:escapeXml(t.content)}">👁 View</button>
 							</td>
 
 							<td>
-								<c:url var="editUrl" value="/author/tutorials/edit/${t.id}"/>
-								<c:url var="deleteUrl" value="/author/tutorials/delete/${t.id}"/>
+								<div class="actions">
+									<c:url var="editUrl" value="/author/tutorials/edit/${t.id}"/>
+									<c:url var="deleteUrl" value="/author/tutorials/delete/${t.id}"/>
 
-								<a href="${editUrl}" class="btn">Edit</a>
-								<a href="${deleteUrl}" class="btn btn-danger"
-								   onclick="return confirm('Are you sure you want to delete this tutorial?')">🗑 Delete</a>
+									<a href="${editUrl}" class="btn edit">✏️ Edit</a>
+									<a href="${deleteUrl}" class="btn delete"
+									   onclick="return confirm('Are you sure you want to delete this tutorial?')">
+									   🗑 Delete
+									</a>
+								</div>
 							</td>
+
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
+			<div id="contentModal" class="modal">
+			    <div class="modal-box">
+			        <span class="close" onclick="closeModal()">&times;</span>
+			        <h3>Tutorial Content</h3>
+			        <p id="modalContent"></p>
+			    </div>
+			</div>
+			
 		</c:if>
 
 	</div>
+
+	<script src="<c:url value='/js/app.js'/>"></script>
 
 </body>
 </html>
