@@ -53,6 +53,11 @@ body {
 .logout-btn:active {
     transform: scale(0.95);
 }
+
+.logout-btn:hover {
+    background: #b30000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
 </style>
 
 </head>

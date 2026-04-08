@@ -14,6 +14,18 @@
 
 </head>
 <body>
+	<!-- NAVBAR -->
+	<div class="navbar">
+		<div>Welcome, Admin 👋</div>
+
+		<c:url var="logoutUrl" value="/users/logout" />
+		<form action="${logoutUrl}" method="post" style="margin:0;">
+			<button type="submit" class="btn-modern red"
+				onclick="return confirm('Are you sure you want to logout?');">
+				Logout
+			</button>
+		</form>
+	</div>
 
 	<h2>👑 Admin Dashboard</h2>
 	<!-- ================= ADD USER BUTTON ================= -->

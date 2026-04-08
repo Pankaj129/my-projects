@@ -62,7 +62,7 @@ h2 {
 		</div>
 
 		<div class="row">
-			<span class="label">Name:</span> ${user.firstname}
+			<span class="label">Name:</span> ${user.firstname} ${user.lastname}
 		</div>
 
 		<div class="row">
@@ -73,12 +73,6 @@ h2 {
 			<span class="label">Role:</span> ${user.role}
 		</div>
 
-		<!-- Optional fields -->
-		<c:if test="${not empty user.status}">
-			<div class="row">
-				<span class="label">Status:</span> ${user.status}
-			</div>
-		</c:if>
 
 		<a class="btn" href="<spring:url value='/admin/users'/>"> ⬅ Back
 			to Dashboard </a>
