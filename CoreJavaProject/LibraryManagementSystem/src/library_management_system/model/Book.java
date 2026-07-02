@@ -96,7 +96,7 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 
 	public long calculateFine() {
 
-		if (availabilityStatus==availabilityStatus.BORROWED) {
+		if (availabilityStatus==BookStatus.BORROWED) {
 			return 0;
 		}
 
