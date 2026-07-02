@@ -1,10 +1,12 @@
-package model;
+package library_management_system.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import exception.BookNotAvailableException;
-import utilities.IdGenerator;
+import library_management_system.exception.BookNotAvailableException;
+import library_management_system.utilities.IdGenerator;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Book implements Serializable, Borrowable, Comparable<Book> {
 
@@ -12,6 +14,7 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static final int FINE_PER_DAY = 5;
 
 	private String title;
 	private String author;
@@ -89,6 +92,27 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 
 	public LocalDate getDueDate() {
 		return dueDate;
+	}
+
+	public long calculateFine() {
+
+		if (availabilityStatus==availabilityStatus.BORROWED) {
+			return 0;
+		}
+
+		if (dueDate == null) {
+			return 0;
+		}
+
+		LocalDate today = LocalDate.now();
+
+		if (!today.isAfter(dueDate)) {
+			return 0;
+		}
+
+		long overdueDays = ChronoUnit.DAYS.between(dueDate, today);
+
+		return overdueDays * FINE_PER_DAY;
 	}
 
 }

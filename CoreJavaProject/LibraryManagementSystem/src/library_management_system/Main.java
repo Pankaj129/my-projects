@@ -3,9 +3,9 @@ package library_management_system;
 import java.util.List;
 import java.util.Scanner;
 
-import model.Book;
-import model.Member;
-import service.Library;
+import library_management_system.model.Book;
+import library_management_system.model.Member;
+import library_management_system.service.Library;
 
 public class Main {
 
@@ -17,23 +17,7 @@ public class Main {
 
 		while (true) {
 
-			System.out.println("\n===================================\r\n" + "      LIBRARY MANAGEMENT SYSTEM\r\n"
-					+ "===================================\n");
-			System.out.println("01. Add Book");
-			System.out.println("02. Add Member");
-			System.out.println("03. Borrow Book");
-			System.out.println("04. Return Book");
-			System.out.println("05. Search Book By Title");
-			System.out.println("06. Search Book By Author");
-			System.out.println("07. Display All Books");
-			System.out.println("08. Display All Members");
-			System.out.println("09. Sort Books By Title");
-			System.out.println("10. Sort Books By Author");
-			System.out.println("11. View Borrowed Books");
-			System.out.println("12. Delete Membership");
-			System.out.println("13. Library Statistics");
-			System.out.println("14. Exit");
-			System.out.print("\nEnter Choice : ");
+			displayMenu();
 
 			int choice = sc.nextInt();
 			sc.nextLine();
@@ -99,8 +83,7 @@ public class Main {
 
 					System.out.print("Enter Title : ");
 					title = sc.nextLine();
-					books = library
-							.searchBooks(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()));
+					books = library.searchBooks(book -> book.getTitle().toLowerCase().contains(title.toLowerCase()));
 
 					library.printBooks(books);
 
@@ -110,8 +93,7 @@ public class Main {
 
 					System.out.print("Enter Author : ");
 					author = sc.nextLine();
-					books = library
-							.searchBooks(book -> book.getAuthor().toLowerCase().contains(author.toLowerCase()));
+					books = library.searchBooks(book -> book.getAuthor().toLowerCase().contains(author.toLowerCase()));
 
 					library.printBooks(books);
 
@@ -160,16 +142,56 @@ public class Main {
 
 					break;
 
-				case 14:
+				case 13:
 
 					library.displayLibraryStatistics();
 					break;
 
+				case 14:
+
+					library.generateSampleData();
+					break;
+
 				case 15:
 
-					System.out.println("Thank You!");
+					library.displayTransactions();
+					break;
+
+				case 16:
+
+					library.undoLastTransaction();
+					break;
+
+				case 17:
+
+					library.exportBooks();
+					break;
+
+				case 18:
+
+					System.out.print("Enter ISBN : ");
+					isbn = sc.nextLine();
+
+					library.calculateFine(isbn);
+
+					break;
+
+				case 19:
+
 					library.saveData();
+
+					System.out.println("Data Saved Successfully.");
+
+					break;
+
+				case 20:
+
+					library.saveData();
+
+					System.out.println("Thank You!");
+
 					sc.close();
+
 					System.exit(0);
 
 				default:
@@ -186,6 +208,34 @@ public class Main {
 
 		}
 
+	}
+
+	private static void displayMenu() {
+
+		System.out.println("\n======================================");
+		System.out.println("      LIBRARY MANAGEMENT SYSTEM");
+		System.out.println("======================================");
+		System.out.println("01. Add Book");
+		System.out.println("02. Add Member");
+		System.out.println("03. Borrow Book");
+		System.out.println("04. Return Book");
+		System.out.println("05. Search Book By Title");
+		System.out.println("06. Search Book By Author");
+		System.out.println("07. Display All Books");
+		System.out.println("08. Display All Members");
+		System.out.println("09. Sort Books By Title");
+		System.out.println("10. Sort Books By Author");
+		System.out.println("11. View Borrowed Books");
+		System.out.println("12. Delete Membership");
+		System.out.println("13. Library Statistics");
+		System.out.println("14. Generate Sample Data");
+		System.out.println("15. Transaction History");
+		System.out.println("16. Undo Last Transaction");
+		System.out.println("17. Export Books to CSV");
+		System.out.println("18. Calculate Fine");
+		System.out.println("19. Save Data");
+		System.out.println("20. Exit");
+		System.out.print("\nEnter Choice : ");
 	}
 
 }

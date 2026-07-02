@@ -1,8 +1,8 @@
-package comparator;
+package library_management_system.comparator;
 
 import java.util.Comparator;
 
-import model.Book;
+import library_management_system.model.Book;
 
 public class BookTitleComparator implements Comparator<Book> {
 

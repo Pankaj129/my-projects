@@ -1,6 +1,6 @@
-package model;
+package library_management_system.model;
 
-import exception.BookNotAvailableException;
+import library_management_system.exception.BookNotAvailableException;
 
 public interface Borrowable {
 

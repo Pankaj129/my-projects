@@ -1,12 +1,12 @@
-package model;
+package library_management_system.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.BookAlreadyBorrowedException;
-import exception.MemberLimitExceededException;
-import utilities.IdGenerator;
+import library_management_system.exception.BookAlreadyBorrowedException;
+import library_management_system.exception.MemberLimitExceededException;
+import library_management_system.utilities.IdGenerator;
 
 public class Member implements Serializable {
 

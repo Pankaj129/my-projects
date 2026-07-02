@@ -1,4 +1,4 @@
-package utilities;
+package library_management_system.utilities;
 
 public final class IdGenerator {
 

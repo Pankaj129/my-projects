@@ -1,20 +1,26 @@
-package service;
+package library_management_system.service;
 
+import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.function.Predicate;
 
-import comparator.BookAuthorComparator;
-import exception.BookNotAvailableException;
-import exception.MemberLimitExceededException;
-import model.Book;
-import model.Member;
-import utilities.FileUtil;
-import utilities.IdGenerator;
+import library_management_system.comparator.BookAuthorComparator;
+import library_management_system.exception.BookNotAvailableException;
+import library_management_system.exception.MemberLimitExceededException;
+import library_management_system.model.Book;
+import library_management_system.model.Member;
+import library_management_system.model.Transaction;
+import library_management_system.model.TransactionType;
+import library_management_system.utilities.FileUtil;
+import library_management_system.utilities.IdGenerator;
 
 public class Library {
 
@@ -25,6 +31,9 @@ public class Library {
 
 	private Map<String, Book> books;
 	private Map<String, Member> members;
+	private Stack<Transaction> undoStack = new Stack<>();
+
+	private List<Transaction> transactionHistory = new ArrayList<>();
 
 	private Library() {
 		loadData();
@@ -120,6 +129,13 @@ public class Library {
 
 		book.borrow();
 		member.borrowBook(book);
+
+		Transaction transaction = new Transaction(book, member, TransactionType.BORROW);
+
+		undoStack.push(transaction);
+		transactionHistory.add(transaction);
+
+		saveData();
 	}
 
 	public void returnBook(String isbn, String memberId) throws Exception {
@@ -131,8 +147,21 @@ public class Library {
 		if (member == null)
 			throw new MemberLimitExceededException("Member not found.!!");
 
+		long fine = book.calculateFine();
+
+		if (fine > 0) {
+		    System.out.println("Late return. Fine to be collected: ₹" + fine);
+		}
+
 		book.returnItem();
 		member.returnBook(book);
+
+		Transaction transaction = new Transaction(book, member, TransactionType.RETURN);
+
+		undoStack.push(transaction);
+		transactionHistory.add(transaction);
+
+		saveData();
 
 	}
 
@@ -270,107 +299,198 @@ public class Library {
 		System.out.printf("%-30s : %d%n", "Inactive Members", inactiveMembers);
 		System.out.println("==========================================");
 	}
-	
-	private static final String[] BOOK_TITLES = {
-	        "Effective Java",
-	        "Clean Code",
-	        "Head First Java",
-	        "Spring in Action",
-	        "Thinking in Java",
-	        "Java Concurrency in Practice",
-	        "Design Patterns",
-	        "Refactoring",
-	        "Algorithms",
-	        "Microservices",
-	        "The Pragmatic Programmer",
-	        "Domain Driven Design",
-	        "Java Puzzlers",
-	        "Clean Architecture",
-	        "JUnit in Action"
-	};
 
-	private static final String[] BOOK_AUTHORS = {
-	        "Joshua Bloch",
-	        "Robert C. Martin",
-	        "Kathy Sierra",
-	        "Craig Walls",
-	        "Bruce Eckel",
-	        "Brian Goetz",
-	        "Gang of Four",
-	        "Martin Fowler",
-	        "Robert Sedgewick",
-	        "Sam Newman",
-	        "Andrew Hunt",
-	        "Eric Evans",
-	        "Joshua Bloch",
-	        "Robert C. Martin",
-	        "Petar Tahchiev"
-	};
+	public void displayTransactions() {
 
-	private static final String[] MEMBER_NAMES = {
-	        "Pankaj",
-	        "Rahul",
-	        "Amit",
-	        "Sneha",
-	        "Priya",
-	        "Neha",
-	        "Ankit",
-	        "Rohit",
-	        "Karan",
-	        "Vivek"
-	};
-	
+		if (transactionHistory.isEmpty()) {
+
+			System.out.println("No transaction history.");
+			return;
+		}
+
+		System.out.println("\n==============================================================");
+		System.out.printf("%-10s %-20s %-20s %-10s %-20s%n", "Member", "Name", "Book", "Action", "Time");
+		System.out.println("==============================================================");
+
+		transactionHistory.forEach(System.out::println);
+
+		System.out.println("==============================================================");
+	}
+
+	public void exportBooks() {
+
+		try (PrintWriter pw = new PrintWriter("books.csv")) {
+
+			pw.println("ISBN,Title,Author,Status");
+
+			for (Book book : books.values()) {
+
+				pw.printf("%s,%s,%s,%s%n", book.getIsbn(), book.getTitle(), book.getAuthor(), book.isAvailable());
+
+			}
+
+			System.out.println("CSV Exported.");
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+	}
+
+	public void calculateFine(String isbn) {
+
+		Book book = books.get(isbn);
+
+		if (book == null) {
+			System.out.println("Book not found.");
+			return;
+		}
+
+		System.out.println("\n==========================================");
+		System.out.println("           FINE DETAILS");
+		System.out.println("==========================================");
+
+		System.out.println("ISBN          : " + book.getIsbn());
+		System.out.println("Title         : " + book.getTitle());
+		System.out.println("Author        : " + book.getAuthor());
+
+		if (book.isAvailable()) {
+
+			System.out.println("Status        : Available");
+			System.out.println("Fine          : ₹0");
+
+		} else {
+
+			LocalDate today = LocalDate.now();
+
+			long overdueDays = today.isAfter(book.getDueDate()) ? ChronoUnit.DAYS.between(book.getDueDate(), today) : 0;
+
+			System.out.println("Status        : Borrowed");
+			System.out.println("Borrow Date   : " + book.getBorrowedDate());
+			System.out.println("Due Date      : " + book.getDueDate());
+			System.out.println("Overdue Days  : " + overdueDays);
+			System.out.println("Fine          : ₹" + book.calculateFine());
+
+		}
+
+		System.out.println("==========================================");
+	}
+
+	public void clearData() {
+
+		books.clear();
+		members.clear();
+
+		saveData();
+	}
+
+	private static final String[] BOOK_TITLES = { "Effective Java", "Clean Code", "Head First Java", "Spring in Action",
+			"Thinking in Java", "Java Concurrency in Practice", "Design Patterns", "Refactoring", "Algorithms",
+			"Microservices", "The Pragmatic Programmer", "Domain Driven Design", "Java Puzzlers", "Clean Architecture",
+			"JUnit in Action" };
+
+	private static final String[] BOOK_AUTHORS = { "Joshua Bloch", "Robert C. Martin", "Kathy Sierra", "Craig Walls",
+			"Bruce Eckel", "Brian Goetz", "Gang of Four", "Martin Fowler", "Robert Sedgewick", "Sam Newman",
+			"Andrew Hunt", "Eric Evans", "Joshua Bloch", "Robert C. Martin", "Petar Tahchiev" };
+
+	private static final String[] MEMBER_NAMES = { "Pankaj", "Rahul", "Amit", "Sneha", "Priya", "Neha", "Ankit",
+			"Rohit", "Karan", "Vivek" };
+
 	public void generateSampleData() {
 
-	    if (!books.isEmpty() || !members.isEmpty()) {
+		if (!books.isEmpty() || !members.isEmpty()) {
 
-	        System.out.println("--------------------------------");
-	        System.out.println("Sample data already exists.");
-	        System.out.println("--------------------------------");
-	        return;
-	    }
+			System.out.println("--------------------------------");
+			System.out.println("Sample data already exists.");
+			System.out.println("--------------------------------");
+			return;
+		}
 
-	    // Add Books
-	    for (int i = 0; i < BOOK_TITLES.length; i++) {
-	        addBook(new Book(BOOK_TITLES[i], BOOK_AUTHORS[i]));
-	    }
+		// Add Books
+		for (int i = 0; i < BOOK_TITLES.length; i++) {
+			addBook(new Book(BOOK_TITLES[i], BOOK_AUTHORS[i]));
+		}
 
-	    // Add Members
-	    for (String name : MEMBER_NAMES) {
-	        addMember(new Member(name));
-	    }
+		// Add Members
+		for (String name : MEMBER_NAMES) {
+			addMember(new Member(name));
+		}
 
-	    List<Book> availableBooks = new ArrayList<>(books.values());
-	    List<Member> memberList = new ArrayList<>(members.values());
+		List<Book> availableBooks = new ArrayList<>(books.values());
+		List<Member> memberList = new ArrayList<>(members.values());
 
-	    Collections.shuffle(availableBooks);
-	    Collections.shuffle(memberList);
+		Collections.shuffle(availableBooks);
+		Collections.shuffle(memberList);
 
-	    int borrowCount = Math.min(5,
-	            Math.min(availableBooks.size(), memberList.size()));
+		int borrowCount = Math.min(5, Math.min(availableBooks.size(), memberList.size()));
 
-	    for (int i = 0; i < borrowCount; i++) {
+		for (int i = 0; i < borrowCount; i++) {
 
-	        try {
+			try {
 
-	            borrowBooks(
-	                    availableBooks.get(i).getIsbn(),
-	                    memberList.get(i).getMemberId());
+				borrowBooks(availableBooks.get(i).getIsbn(), memberList.get(i).getMemberId());
 
-	        } catch (Exception e) {
+			} catch (Exception e) {
 
-	            System.out.println("Unable to borrow "
-	                    + availableBooks.get(i).getTitle()
-	                    + " : "
-	                    + e.getMessage());
-	        }
-	    }
+				System.out.println("Unable to borrow " + availableBooks.get(i).getTitle() + " : " + e.getMessage());
+			}
+		}
 
-	    saveData();
+		saveData();
 
-	    System.out.println("--------------------------------");
-	    System.out.println("Sample data generated successfully.");
-	    System.out.println("--------------------------------");
+		System.out.println("--------------------------------");
+		System.out.println("Sample data generated successfully.");
+		System.out.println("--------------------------------");
+	}
+
+	public void undoLastTransaction() {
+
+		if (undoStack.isEmpty()) {
+
+			System.out.println("No transaction available to undo.");
+			return;
+		}
+
+		Transaction transaction = undoStack.pop();
+
+		Book book = transaction.getBook();
+		Member member = transaction.getMember();
+
+		try {
+
+			if (transaction.getType() == TransactionType.BORROW) {
+
+				// Undo Borrow
+
+				book.returnItem();
+				member.returnBook(book);
+
+				System.out.println("--------------------------------");
+				System.out.println("Undo Successful");
+				System.out.println("Borrow operation reversed.");
+				System.out.println("--------------------------------");
+
+			} else {
+
+				// Undo Return
+
+				book.borrow();
+				member.borrowBook(book);
+
+				System.out.println("--------------------------------");
+				System.out.println("Undo Successful");
+				System.out.println("Return operation reversed.");
+				System.out.println("--------------------------------");
+			}
+
+			saveData();
+
+		} catch (Exception e) {
+
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

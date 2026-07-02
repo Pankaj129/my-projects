@@ -1,4 +1,4 @@
-package exception;
+package library_management_system.exception;
 
 public class MemberLimitExceededException extends Exception {
 
