@@ -35,6 +35,9 @@ public class Member implements Serializable {
 	public Member(String name) {
 		super();
 		this.name = name;
+		this.memberId = IdGenerator.generateMemberId();
+		this.borrowedBooks = new ArrayList<>();
+		this.maxBorrowLimit = 5; // or whatever default limit your project uses
 	}
 
 	public String getMemberId() {
@@ -60,22 +63,21 @@ public class Member implements Serializable {
 
 	public void borrowBook(Book book) throws MemberLimitExceededException, BookAlreadyBorrowedException {
 
-	    if (book == null) {
-	        throw new IllegalArgumentException("Book cannot be null.");
-	    }
+		if (book == null) {
+			throw new IllegalArgumentException("Book cannot be null.");
+		}
 
-	    if (borrowedBooks.size() >= maxBorrowLimit) {
-	        throw new MemberLimitExceededException("Borrow book limit exceeded.");
-	    }
+		if (borrowedBooks.size() >= maxBorrowLimit) {
+			throw new MemberLimitExceededException("Borrow book limit exceeded.");
+		}
 
-	    boolean alreadyBorrowed = borrowedBooks.stream()
-	            .anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
+		boolean alreadyBorrowed = borrowedBooks.stream().anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
 
-	    if (alreadyBorrowed) {
-	        throw new BookAlreadyBorrowedException("Book is already borrowed by this member.");
-	    }
+		if (alreadyBorrowed) {
+			throw new BookAlreadyBorrowedException("Book is already borrowed by this member.");
+		}
 
-	    borrowedBooks.add(book);
+		borrowedBooks.add(book);
 	}
 
 	public void returnBook(Book book) {

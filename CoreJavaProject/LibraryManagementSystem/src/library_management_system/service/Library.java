@@ -51,15 +51,20 @@ public class Library {
 	}
 
 	private void loadData() {
-		books = FileUtil.<HashMap<String, Book>>load(BOOK_FILE);
 
-		members = FileUtil.<HashMap<String, Member>>load(MEMBER_FILE);
+		books = FileUtil.load(BOOK_FILE);
+		if (books == null) {
+			books = new HashMap<>();
+		}
+
+		members = FileUtil.load(MEMBER_FILE);
+		if (members == null) {
+			members = new HashMap<>();
+		}
 
 		updateIdCounters();
 
 		System.out.println("Library data loaded.");
-		System.out.println("Books   : " + books.size());
-		System.out.println("Members : " + members.size());
 	}
 
 	public void saveData() {
@@ -150,7 +155,7 @@ public class Library {
 		long fine = book.calculateFine();
 
 		if (fine > 0) {
-		    System.out.println("Late return. Fine to be collected: ₹" + fine);
+			System.out.println("Late return. Fine to be collected: ₹" + fine);
 		}
 
 		book.returnItem();
