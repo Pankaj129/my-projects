@@ -270,5 +270,107 @@ public class Library {
 		System.out.printf("%-30s : %d%n", "Inactive Members", inactiveMembers);
 		System.out.println("==========================================");
 	}
+	
+	private static final String[] BOOK_TITLES = {
+	        "Effective Java",
+	        "Clean Code",
+	        "Head First Java",
+	        "Spring in Action",
+	        "Thinking in Java",
+	        "Java Concurrency in Practice",
+	        "Design Patterns",
+	        "Refactoring",
+	        "Algorithms",
+	        "Microservices",
+	        "The Pragmatic Programmer",
+	        "Domain Driven Design",
+	        "Java Puzzlers",
+	        "Clean Architecture",
+	        "JUnit in Action"
+	};
+
+	private static final String[] BOOK_AUTHORS = {
+	        "Joshua Bloch",
+	        "Robert C. Martin",
+	        "Kathy Sierra",
+	        "Craig Walls",
+	        "Bruce Eckel",
+	        "Brian Goetz",
+	        "Gang of Four",
+	        "Martin Fowler",
+	        "Robert Sedgewick",
+	        "Sam Newman",
+	        "Andrew Hunt",
+	        "Eric Evans",
+	        "Joshua Bloch",
+	        "Robert C. Martin",
+	        "Petar Tahchiev"
+	};
+
+	private static final String[] MEMBER_NAMES = {
+	        "Pankaj",
+	        "Rahul",
+	        "Amit",
+	        "Sneha",
+	        "Priya",
+	        "Neha",
+	        "Ankit",
+	        "Rohit",
+	        "Karan",
+	        "Vivek"
+	};
+	
+	public void generateSampleData() {
+
+	    if (!books.isEmpty() || !members.isEmpty()) {
+
+	        System.out.println("--------------------------------");
+	        System.out.println("Sample data already exists.");
+	        System.out.println("--------------------------------");
+	        return;
+	    }
+
+	    // Add Books
+	    for (int i = 0; i < BOOK_TITLES.length; i++) {
+	        addBook(new Book(BOOK_TITLES[i], BOOK_AUTHORS[i]));
+	    }
+
+	    // Add Members
+	    for (String name : MEMBER_NAMES) {
+	        addMember(new Member(name));
+	    }
+
+	    List<Book> availableBooks = new ArrayList<>(books.values());
+	    List<Member> memberList = new ArrayList<>(members.values());
+
+	    Collections.shuffle(availableBooks);
+	    Collections.shuffle(memberList);
+
+	    int borrowCount = Math.min(5,
+	            Math.min(availableBooks.size(), memberList.size()));
+
+	    for (int i = 0; i < borrowCount; i++) {
+
+	        try {
+
+	            borrowBooks(
+	                    availableBooks.get(i).getIsbn(),
+	                    memberList.get(i).getMemberId());
+
+	        } catch (Exception e) {
+
+	            System.out.println("Unable to borrow "
+	                    + availableBooks.get(i).getTitle()
+	                    + " : "
+	                    + e.getMessage());
+	        }
+	    }
+
+	    saveData();
+
+	    System.out.println("--------------------------------");
+	    System.out.println("Sample data generated successfully.");
+	    System.out.println("--------------------------------");
+	}
 
 }

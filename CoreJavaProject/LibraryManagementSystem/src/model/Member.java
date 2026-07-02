@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.BookAlreadyBorrowedException;
 import exception.MemberLimitExceededException;
+import utilities.IdGenerator;
 
 public class Member implements Serializable {
 
@@ -12,8 +14,6 @@ public class Member implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static int nextMemberId = 1001;
 
 	private String name;
 	private String memberId;
@@ -23,17 +23,18 @@ public class Member implements Serializable {
 	public Member(String name, int maxBorrowLimit) {
 		super();
 		this.name = name;
-		this.memberId = generateMemberId();
+		this.memberId = IdGenerator.generateMemberId();
 		this.borrowedBooks = new ArrayList<>();
 		this.maxBorrowLimit = maxBorrowLimit;
 	}
 
-	private String generateMemberId() {
-		return "M" + nextMemberId++;
-	}
-
 	public String getName() {
 		return name;
+	}
+
+	public Member(String name) {
+		super();
+		this.name = name;
 	}
 
 	public String getMemberId() {
@@ -57,15 +58,24 @@ public class Member implements Serializable {
 		return "Member [ name=" + name + ", id=" + memberId + ", borrowedBooks=" + borrowedBooks + " ]";
 	}
 
-	public void borrowBook(Book book) throws MemberLimitExceededException {
+	public void borrowBook(Book book) throws MemberLimitExceededException, BookAlreadyBorrowedException {
 
-		if (borrowedBooks.size() >= maxBorrowLimit)
-			throw new MemberLimitExceededException("Borrow book limit exceeded.!!");
+	    if (book == null) {
+	        throw new IllegalArgumentException("Book cannot be null.");
+	    }
 
-		borrowedBooks.add(book);
+	    if (borrowedBooks.size() >= maxBorrowLimit) {
+	        throw new MemberLimitExceededException("Borrow book limit exceeded.");
+	    }
 
-		System.out.println("Book borrowed successfully.");
+	    boolean alreadyBorrowed = borrowedBooks.stream()
+	            .anyMatch(b -> b.getIsbn().equals(book.getIsbn()));
 
+	    if (alreadyBorrowed) {
+	        throw new BookAlreadyBorrowedException("Book is already borrowed by this member.");
+	    }
+
+	    borrowedBooks.add(book);
 	}
 
 	public void returnBook(Book book) {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import exception.BookNotAvailableException;
+import utilities.IdGenerator;
 
 public class Book implements Serializable, Borrowable, Comparable<Book> {
 
@@ -11,8 +12,6 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static long nextISBN = 9780000000000L;
 
 	private String title;
 	private String author;
@@ -25,7 +24,7 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 		super();
 		this.title = title;
 		this.author = author;
-		this.isbn = String.valueOf(nextISBN++);
+		this.isbn = IdGenerator.generateIsbn();
 		this.availabilityStatus = BookStatus.AVAILABLE;
 	}
 
@@ -63,7 +62,7 @@ public class Book implements Serializable, Borrowable, Comparable<Book> {
 	public void returnItem() {
 		availabilityStatus = BookStatus.AVAILABLE;
 		borrowedDate = null;
-	    dueDate = null;
+		dueDate = null;
 
 	}
 
