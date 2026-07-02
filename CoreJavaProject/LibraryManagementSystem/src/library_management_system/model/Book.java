@@ -2,11 +2,10 @@ package library_management_system.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import library_management_system.exception.BookNotAvailableException;
 import library_management_system.utilities.IdGenerator;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class Book implements Serializable, Borrowable, Comparable<Book> {
 
