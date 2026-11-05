@@ -6,6 +6,22 @@ public class ArrayAssending {
 		// TODO Auto-generated method stub
 
 		int arr[] = new int[] { 5, 55, 46, 8, 36, 29 };
+		/*
+			int sortedArr = Arrays.stream(arr).sorted().toArray();
+			System.out.println(Arrays.toString(sortedArr));
+		
+		*/
+		/*
+		  For reversed
+		int[] sortedArr = Arrays.stream(arr)
+							.boxed()
+							.sorted(java.util.Collections.reverseOrder())
+							.mapToInt(Integer::intValue)
+							.toArray();
+		
+		
+		*/
+		
 		for (int j = 0; j < arr.length; j++) {
 			boolean flag = true;
 			for (int i1 = 0; i1 < arr.length - 1; i1++) {
