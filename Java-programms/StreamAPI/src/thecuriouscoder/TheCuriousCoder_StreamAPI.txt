@@ -1,0 +1,192 @@
+
+Q1) Given a list of integers, remove duplicates and sort them in descending order.
+List<Integer> list = new ArrayList<>(Arrays.asList(5, 3, 1, 3, 2, 5, 4));
+
+
+Q2) From a list of integers, find all the odd numbers and return their squares.
+List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+
+Q3) We have a List of Integers. Get 2nd and 3rd elements from it and return them in a List.
+List<Integer> list = Arrays.asList(10, 20, 30, 40, 50);
+
+
+Q4) We have a List of Integers. Find the second highest number in a list.
+List<Integer> list = new ArrayList<>(Arrays.asList(20, 10, 10, 45, 30, 45, 5, 20));
+
+
+Q5) You have a List of Integers. Divide numbers into even and odd.
+List<Integer> list = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+
+
+Q6) You have a List of Strings. Find the longest string in a list.
+List<String> list = new ArrayList<>(Arrays.asList("Java", "SpringBoot", "API"));
+
+
+Q7) From a list of employees, find the first employee whose salary is greater than 50000.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
+
+Q8) From a list of employees, Find top 2 highest
+paid employees.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000),
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000), 
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)));
+
+
+Q9) From a list of employees, Sort employees by salary, then by name.
+List<Employee> employees = Arrays.asList(
+new Employee("Abhishek", "IT", 50000), 
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 45000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000), 
+new Employee("Diksha", "HR", 45000), 
+new Employee("Rohan", "Finance", 60000));
+
+
+Q10) From a list of Integer, Find the frequency
+of each element in a list.
+List<Integer> list = Arrays.asList(3, 2, 3, 4, 4, 1, 2, 1, 1, 1, 5, 6, 5);
+
+
+Q11) Given a list of employees, count how many employees are in each department.
+List<Employee> employees = new ArrayList<>(Arrays.asList(
+new Employee("Abhishek", "IT", 50000), 
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
+
+Q12) Given a list of transactions, Find total transaction amount per category.
+List<Transaction> transactions = Arrays.asList(
+new Transaction("Food", 100), 
+new Transaction("Food", 200),
+new Transaction("Food", 150),
+new Transaction("Shopping", 300),
+new Transaction("Shopping", 250), 
+new Transaction("Shopping", 100), 
+new Transaction("Utilities", 400), 
+new Transaction("Utilities", 300), 
+new Transaction("Entertainment", 500), 
+new Transaction("Entertainment", 200), 
+new Transaction("Travel", 700), 
+new Transaction("Travel", 300)
+);
+
+
+Q13) Given a list of employees, Find the average salary of employees in each department.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
+
+Q14) Given a list of employees, find the highest paid employee in each department.
+List<Employee> employees = new ArrayList<>(Arrays.asList(
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)));
+
+
+Q15) Given a list of employees, Convert the list into a comma-separated string of Employee names.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
+
+Q16) Given two lists, Find common elements between them.
+List<Integer> list1 = Arrays.asList(1, 2, 3, 4); List<Integer> list2 = Arrays.asList(3, 4, 5, 6);
+
+
+Q17) You have a List of Lists. Convert it into a single List with all the elements. Remove duplicates if any.
+List<List<Integer>> listOfLists = Arrays.asList(
+Arrays.asList(1, 2, 3, 4),
+Arrays.asList(3, 4, 5, 6),
+Arrays.asList(7, 8, 1, 2),
+Arrays.asList(9, 10, 5, 6),
+Arrays.asList(11, 12, 7, 8)
+);
+
+
+Q18) Given a list of Employees, Print all employee names. Their order doesn't matter but the operation should be very fast.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
+
+Q19) In below given code, find the error.
+List<Integer> list = new ArrayList<>();
+IntStream.range(1, 1000)
+.parallel
+.forEach(elem -> list.add(elem));
+
+Q20) From a list of Employees, Compute total combined salary of all the Employees. Operation should be very fast.
+List<Employee> employees = new ArrayList<>(Arrays.asList( 
+new Employee("Abhishek", "IT", 50000),
+new Employee("Ankit", "IT", 70000), 
+new Employee("Rahul", "HR", 40000), 
+new Employee("Tina", "HR", 45000), 
+new Employee("Esha", "Finance", 60000), 
+new Employee("Naman", "Finance", 55000), 
+new Employee("Sachit", "IT", 80000),
+new Employee("Pushp", "Marketing", 50000), 
+new Employee("Sumit", "Marketing", 52000)
+));
+
