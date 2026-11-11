@@ -18,7 +18,7 @@ public class Problem20 {
                 new Employee("Pushp", "Marketing", 50000),
                 new Employee("Sumit", "Marketing", 52000)
         ));
-            int totalSalary = employees.stream().mapToInt(Employee::getSalary).sum();
+            int totalSalary = employees.parallelStream().mapToInt(Employee::getSalary).sum();
 
         System.out.println(totalSalary);
 
