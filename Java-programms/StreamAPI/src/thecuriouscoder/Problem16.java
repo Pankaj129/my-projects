@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Program16 {
+public class Problem16 {
 
 
     public static void main(String[] args) {
