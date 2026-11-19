@@ -4,8 +4,14 @@
 
 
 25 Find and print the distinct odd numbers || Most Asked
-List<Integer> list = Arrays.aslist(1,3,3,5,6,7,7,7,8,9);
+List<Integer> list = Arrays.asList(1,3,3,5,6,7,7,7,8,9);
 
 26 Find the union of two lists of integers || Most asked
-List<Integer> list = Arrays.aslist(1,2,3,4,5);
-List<Integer> list = Arrays.aslist(6,7,8,9,10);
+List<Integer> list = Arrays.asList(1,2,3,4,5);
+List<Integer> list = Arrays.asList(6,7,8,9,10);
+
+27 27 Find the kth smallest element in a list of integers. || Most Asked
+List<Integer> list = Arrays.asList(1,2,3,4,5,9, 6, 8, 7);
+
+28 Remove all non-numeric characters from a list. || Most Asked
+List<Integer> list = Arrays.asList("1a2b3c", "4g56hi", "xyz789");
