@@ -15,3 +15,9 @@ List<Integer> list = Arrays.asList(1,2,3,4,5,9, 6, 8, 7);
 
 28 Remove all non-numeric characters from a list. || Most Asked
 List<Integer> list = Arrays.asList("1a2b3c", "4g56hi", "xyz789");
+
+29 Find and print strings containing only digits. || Most Asked
+List<Integer> list = Arrays.asList("123", "abc", "xyz789", "87");
+
+30 Convert a list of strings to uppercase. || Most Asked
+List<Integer> list = Arrays.asList("abc", "ghi", "xyz");
